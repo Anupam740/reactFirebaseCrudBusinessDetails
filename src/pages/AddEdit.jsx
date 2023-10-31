@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import './AddEdit.css';
 import dbRef from '../Firebase';
 import { toast } from 'react-toastify';
 
 function AddEdit() {
-  const initialState = {
+  const initialState = useMemo(() => ({
     bizName: '',
     address: '',
     email: '',
     website: '',
     contactPersonName: '',
     phoneNo: '',
-  };
+  }), []); // Empty dependency array to ensure it only initializes once
 
   const navigate = useNavigate();
   const [data, setData] = useState({});
@@ -20,7 +20,7 @@ function AddEdit() {
   const { id } = useParams();
 
   useEffect(() => {
-    dbRef.child('biz-contacts').on('value', (snapshot) => {
+    dbRef.child("biz-contacts").on("value", (snapshot) => {
       if (snapshot.val() !== null) {
         setData({ ...snapshot.val() });
       } else {
@@ -41,7 +41,7 @@ function AddEdit() {
     return () => {
       setState({ ...initialState });
     };
-  }, [id, data,initialState]);
+  }, [id, data, initialState]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -75,9 +75,9 @@ function AddEdit() {
           }
         });
       }
-
       setTimeout(() => navigate('/'), 2000);
     }
+    // Save the data in state to your database or perform other actions here
   };
 
   return (
