@@ -41,7 +41,7 @@ function AddEdit() {
     return () => {
       setState({ ...initialState });
     };
-  }, [id, data]);
+  }, [id, data,initialState]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
